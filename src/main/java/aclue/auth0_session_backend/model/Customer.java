@@ -23,7 +23,7 @@ public class Customer {
     private String salutation;
 
     @Column(name = "FIRST_NAME")
-    private String firstName;
+    private String firstname;
 
     @Column(name = "LAST_NAME")
     private String lastname;
