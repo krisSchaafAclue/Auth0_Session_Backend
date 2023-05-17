@@ -1,4 +1,11 @@
+auth0:
+  audience: https://auth0-aclue-api.com
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://kristoffer-schaaf-aclue.us.auth0.com/
   datasource:
     url: jdbc:h2:mem:mydb
     username: sa
@@ -11,3 +18,5 @@ spring:
   h2:
     console:
       enabled: true
+
+
