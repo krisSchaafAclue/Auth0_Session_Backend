@@ -6,6 +6,9 @@ import aclue.auth0_session_backend.persistance.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CustomerService {
 
@@ -20,7 +23,7 @@ public class CustomerService {
         Customer customer = new Customer();
 
         customer.setSalutation(body.getSalutation());
-        customer.setFirstName(body.getFirstname());
+        customer.setFirstname(body.getFirstname());
         customer.setLastname(body.getLastname());
         customer.setEmail(body.getEmail());
         customer.setStreet(body.getStreet());
@@ -30,5 +33,21 @@ public class CustomerService {
         customer.setAdditionalInformation(body.getAdditionalInformation());
 
         this.customerRepository.save(customer);
+    }
+
+    public List<Customer> getCustomers() {
+        return (List<Customer>) this.customerRepository.findAll();
+    }
+
+    public Customer findById(Long id) {
+        return this.customerRepository.findById(id).orElseThrow(() -> new RuntimeException());
+    }
+
+    public void editCustomer(Customer customer) {
+        this.customerRepository.save(customer);
+    }
+
+    public void deleteCustomerById(Long id) {
+        this.customerRepository.deleteById(id);
     }
 }
