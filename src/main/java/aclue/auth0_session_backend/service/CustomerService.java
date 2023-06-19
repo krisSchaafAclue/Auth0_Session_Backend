@@ -1,13 +1,12 @@
 package aclue.auth0_session_backend.service;
 
-import aclue.auth0_session_backend.Body.CustomerBody;
+import aclue.auth0_session_backend.body.CustomerBody;
 import aclue.auth0_session_backend.model.Customer;
 import aclue.auth0_session_backend.persistance.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {

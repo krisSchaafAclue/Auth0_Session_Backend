@@ -1,6 +1,6 @@
 package aclue.auth0_session_backend.controller;
 
-import aclue.auth0_session_backend.Body.CustomerBody;
+import aclue.auth0_session_backend.body.CustomerBody;
 import aclue.auth0_session_backend.model.Customer;
 import aclue.auth0_session_backend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -22,7 +21,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/addCustomer")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public void addCustomer(@RequestBody CustomerBody body) {
         this.customerService.addCustomer(body);
