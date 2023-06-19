@@ -25,9 +25,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/public").permitAll()
                 .mvcMatchers("/customers").authenticated()
-//                .mvcMatchers("/api/private-scoped").hasAuthority("SCOPE_read:messages")
+                .mvcMatchers("/customers").hasAuthority("SCOPE_read:customers")
+                .mvcMatchers("/customers/addCustomer").hasAuthority("SCOPE_write:customers")
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
         return http.build();
