@@ -1,7 +1,7 @@
 package aclue.auth0_session_backend.controller;
 
 import aclue.auth0_session_backend.body.CustomerBody;
-import aclue.auth0_session_backend.model.Customer;
+import aclue.auth0_session_backend.persistance.model.Customer;
 import aclue.auth0_session_backend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/customers")
+@RequestMapping(Api.CUSTOMERS_PATH)
 public class CustomerController {
 
     private CustomerService customerService;

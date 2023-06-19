@@ -1,4 +1,4 @@
-package aclue.auth0_session_backend.model;
+package aclue.auth0_session_backend.persistance.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

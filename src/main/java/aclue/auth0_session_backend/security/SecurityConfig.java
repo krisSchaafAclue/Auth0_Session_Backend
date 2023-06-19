@@ -1,5 +1,6 @@
 package aclue.auth0_session_backend.security;
 
+import aclue.auth0_session_backend.controller.Api;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -26,9 +27,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/customers").authenticated()
-                .mvcMatchers(HttpMethod.GET, "/customers").hasAuthority("SCOPE_read:customers")
-                .mvcMatchers(HttpMethod.POST, "/customers").hasAuthority("SCOPE_write:customers")
+                .mvcMatchers(Api.CUSTOMERS_PATH).authenticated()
+                .mvcMatchers(HttpMethod.GET, Api.CUSTOMERS_PATH).hasAuthority(Api.PERMISSION_READ_CUSTOMERS)
+                .mvcMatchers(HttpMethod.POST, Api.CUSTOMERS_PATH).hasAuthority(Api.PERMISSION_WRITE_CUSTOMERS)
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
         return http.build();
