@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestOperations;
 
@@ -37,19 +39,21 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().oauth2ResourceServer().jwt()
+                .jwtAuthenticationConverter(jwtAuthenticationConverterWithCustomClaimName("permissions"))
                 .decoder(jwtDecoder);
         return http.build();
     }
 
+    private static JwtAuthenticationConverter jwtAuthenticationConverterWithCustomClaimName(String customClaimName) {
+        var jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName(customClaimName);
+        var jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+        return jwtAuthenticationConverter;
+    }
+
     @Bean
     JwtDecoder jwtDecoder() {
-//        RestOperations rest = builder
-//                .setConnectTimeout(Duration.of(60, ChronoUnit.SECONDS))
-//                .setReadTimeout(Duration.of(60, ChronoUnit.SECONDS))
-//                .build();
-
-//        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(issuer).restOperations(rest).build();
-
         NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder)
                 JwtDecoders.fromOidcIssuerLocation(issuer);
 
@@ -58,7 +62,6 @@ public class SecurityConfig {
         OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
 
         jwtDecoder.setJwtValidator(withAudience);
-
         return jwtDecoder;
     }
 
@@ -68,7 +71,6 @@ public class SecurityConfig {
                 .setConnectTimeout(Duration.of(60, ChronoUnit.SECONDS))
                 .setReadTimeout(Duration.of(60, ChronoUnit.SECONDS))
                 .build();
-
         return rest;
     }
 }
